@@ -61,8 +61,8 @@ bool WiFi_ESP8266::isConnectedToAP(String ssid)
 
 	// Get the payload.
 	String currentSSID = data.substring((indexOfDelimeter+2), (indexOfDelimeter+2+ssid.length()));
+	
 	connected = (ssid == currentSSID);
-
 	return connected;
 }
 
@@ -116,7 +116,6 @@ bool WiFi_ESP8266::enableConnections(WIFI_ENABLE_CONNECTIONS_MODE mode)
 	String connections_mode = AT_COMMAND_ENABLE_CONNECTIONS;
 	connections_mode.replace("<mode>", String(mode));
 	String resp = sendMessage(connections_mode,TIMEOUT,debug);
-
 	return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
 
 }
@@ -127,7 +126,8 @@ bool WiFi_ESP8266::setAsServer(WIFI_SET_AS_SERVER mode, int port)
 	 *  Server can only be created when AT+CIPMUX=1
 	 *
 	 * */
-	bool connectionsEnabled = enableConnections(MULTIPLE_CONNECTIONS);
+	delay(5000); // It is needed because in either case the port does not open.
+	bool connectionsEnabled = enableConnections(WIFI_ENABLE_CONNECTIONS_MODE::MULTIPLE_CONNECTIONS);
 	bool status = false;
 	if(connectionsEnabled )
 	{
