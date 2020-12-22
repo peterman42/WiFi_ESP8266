@@ -112,10 +112,12 @@ public:
 	String setParametersofAP(const char* ssid, const char* pwd, WIFI_AP_CHANNELS_ENUM channel, WIFI_AP_ENCRYPTION_ENUM encryption);
 	String sendMessage(const String& message, const int timeout, bool debug);
 	bool enableConnections(WIFI_ENABLE_CONNECTIONS_MODE mode);
-	bool setAsServer(WIFI_SET_AS_SERVER mode, int port);
+        bool openServer(int port);
 	bool closeServer();
 	bool reboot();
 	bool receive();
 	String& getData();
+private:
+     bool setAsServer(WIFI_SET_AS_SERVER mode, int port);
 };
 #endif /* WIFI_ESP8266_H_ */

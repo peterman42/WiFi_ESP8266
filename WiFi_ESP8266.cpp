@@ -120,7 +120,7 @@ bool WiFi_ESP8266::enableConnections(WIFI_ENABLE_CONNECTIONS_MODE mode)
 
 }
 
-bool WiFi_ESP8266::setAsServer(WIFI_SET_AS_SERVER mode, int port)
+bool WiFi_ESP8266::openServer( int port)
 {
 	/*
 	 *  Server can only be created when AT+CIPMUX=1
@@ -128,25 +128,8 @@ bool WiFi_ESP8266::setAsServer(WIFI_SET_AS_SERVER mode, int port)
 	 * */
 	delay(5000); // It is needed because in either case the port does not open.
 	bool connectionsEnabled = enableConnections(WIFI_ENABLE_CONNECTIONS_MODE::MULTIPLE_CONNECTIONS);
-	bool status = false;
-	if(connectionsEnabled )
-	{
-		String server_mode = AT_COMMAND_SET_AS_SERVER;
-		server_mode.replace("<mode>", String(mode));
-		if(port != -1)
-		{
-			server_mode.replace("<port>", String(port));
-		}
-		else // if the port equals to -1 then the default port (333) is opened.
-		{
-			server_mode.replace(",<port>", String(""));
-		}
-
-		String resp = sendMessage(server_mode,TIMEOUT,debug);
-		status = (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
-	}
-
-	return status;
+        delay(2000);
+        return connectionsEnabled ? setAsServer(WIFI_SET_AS_SERVER::OPEN_SERVER, port) : false;
 }
 
 bool WiFi_ESP8266::closeServer()
@@ -201,4 +184,21 @@ bool WiFi_ESP8266::receive()
 String& WiFi_ESP8266::getData()
 {
 	return this->data;
+}
+
+
+bool WiFi_ESP8266::setAsServer(WIFI_SET_AS_SERVER mode, int port)
+{
+    bool status = false;
+    String server_mode = AT_COMMAND_SET_AS_SERVER;
+    server_mode.replace("<mode>", String(mode));
+    if(port != -1)
+            server_mode.replace("<port>", String(port));
+    else // if the port equals to -1 then the default port (333) is opened.
+            server_mode.replace(",<port>", String(""));
+
+    String resp = sendMessage(server_mode,TIMEOUT,debug);
+    status = (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
+
+    return status;
 }
