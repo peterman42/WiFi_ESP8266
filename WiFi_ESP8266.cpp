@@ -91,26 +91,24 @@ String WiFi_ESP8266::setParametersofAP(const char* ssid, const char* pwd,
 String WiFi_ESP8266::sendMessage(const String& message,
 		const int timeout, bool debug)
 {
-	String response = "";
-	wifi.print(message);
-	long int time = millis();
-	while((time+timeout)>millis())
-	{
-		while(wifi.available())
-		{
-			char c = wifi.read();
-			response += c;
-		}
-	}
-	// If we are on debug mode, then print the response.
         String response = "";
         wifi.write(message.c_str());
+        long int time = millis();
+        while((millis() - time) < timeout)
+        {
+                while(wifi.available())
+                {
+                        char c = wifi.read();
+                        response += c;
+                }
+        }
+        // If we are on debug mode, then print the response.
 	if(debug)
 	{
 		Serial.print("DEBUG: " + String(response));
 	}
 
-	return response;
+        return response;
 }
 
 bool WiFi_ESP8266::enableConnections(WIFI_ENABLE_CONNECTIONS_MODE mode)
