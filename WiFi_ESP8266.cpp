@@ -12,11 +12,11 @@ String WiFi_ESP8266::getIPAddress()
 	return ip;
 }
 
-String WiFi_ESP8266::listAPs()
+String WiFi_ESP8266::getAPsList()
 {
 	String aps = "";
 
-	//aps = sendMessage();
+        aps = sendMessage(AT_COMMAND_LIST_APS, TIMEOUT, debug);
 
 	return aps;
 }

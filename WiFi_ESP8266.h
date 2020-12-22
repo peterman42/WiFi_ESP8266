@@ -102,7 +102,7 @@ public:
 	~WiFi_ESP8266(){}
 
 	String getIPAddress();
-	String listAPs();
+        String getAPsList();
 	bool setMode(WIFI_MODE_ENUM mode);
 	String getMode();
 	bool connectToAP(const char* ssid, const char* pass);
