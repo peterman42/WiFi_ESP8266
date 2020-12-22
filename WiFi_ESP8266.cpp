@@ -103,6 +103,8 @@ String WiFi_ESP8266::sendMessage(const String& message,
 		}
 	}
 	// If we are on debug mode, then print the response.
+        String response = "";
+        wifi.write(message.c_str());
 	if(debug)
 	{
 		Serial.print("DEBUG: " + String(response));
