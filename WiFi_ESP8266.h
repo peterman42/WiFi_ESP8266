@@ -22,6 +22,7 @@
 #define AT_COMMAND_ENABLE_CONNECTIONS String("AT+CIPMUX=<mode>\r\n")
 #define AT_COMMAND_RESET String("AT+RST\r\n")
 #define AT_COMMAND_RECEIVE String("+IPD\r\n")
+#define AT_COMMAND_SEND String("AT+CIPSEND=<id>,<data_length>")
 #define TIMEOUT 2000
 #define RESPONSE_ERROR String("ERROR")
 
@@ -117,6 +118,7 @@ public:
 	bool reboot();
 	bool receive();
 	String& getData();
+        bool send(int id, String data);
 private:
      bool setAsServer(WIFI_SET_AS_SERVER mode, int port);
 };
