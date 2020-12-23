@@ -139,11 +139,6 @@ bool WiFi_ESP8266::closeServer()
 
 bool WiFi_ESP8266::reboot()
 {// Get the index of the delimiter, which is the ":"
-	int indexOfDelimeter = data.indexOf(":");
-
-	// Get the payload.
-	String payload = data.substring((indexOfDelimeter+1));
-	this->data = payload;
 	String reset = AT_COMMAND_RESET;
 	String resp = sendMessage(reset,TIMEOUT,debug);
 	bool status = (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
@@ -151,39 +146,43 @@ bool WiFi_ESP8266::reboot()
 	return status;
 }
 
-bool WiFi_ESP8266::receive()
+client_data WiFi_ESP8266::receive()
 {// Get the index of the delimiter, which is the ":"
-	int indexOfDelimeter = data.indexOf(":");
-
-	// Get the payload.
-	String payload = data.substring((indexOfDelimeter+1));
-	this->data = payload;
-	String data = "";
-	bool received = false;
+        client_data client_data;
+        String data("");
 	while(wifi.available())
 	{
 		char c = wifi.read();
-		data += c;
-		received = true;
+                data += c;
+                client_data.received = true;
 	}
 
-	if(received){
-		//Serial.print(data + String("\n"));
-
-		// Get the index of the delimiter, which is the ":"
+        if(client_data.received){
+                // Get the index of the delimiter, which is the ":"
 		int indexOfDelimeter = data.indexOf(":");
-
 		// Get the payload.
-		String payload = data.substring((indexOfDelimeter+1));
-		this->data = payload;
+                client_data.payload = data.substring((indexOfDelimeter+1));
+
+                // Get the connection id and the length of data
+                String substr = data.substring(0, indexOfDelimeter);
+                String substr_array[3];
+                char toCharArray[50];
+                substr.toCharArray(toCharArray,50);
+                char* token = strtok(toCharArray, ",");
+                int i=0;
+                while(token != NULL)
+                {
+                    substr_array[i++] = token;
+                    token = strtok(NULL,",");
+                }
+                if(i==3)
+                {
+                    client_data.id = substr_array[1];
+                    client_data.length = substr_array[2].toInt();
+                }
 	}
 
-	return received;
-}
-
-String& WiFi_ESP8266::getData()
-{
-	return this->data;
+        return client_data;
 }
 
 bool WiFi_ESP8266::send(int id, String data)

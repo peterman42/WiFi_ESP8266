@@ -90,7 +90,6 @@ class WiFi_ESP8266
 public:
 	SoftwareSerial wifi;
 	bool debug;
-	String data;
 
 	WiFi_ESP8266():wifi(0,1),debug(true)
 	{
@@ -130,8 +129,7 @@ public:
         bool openServer(int port);
 	bool closeServer();
 	bool reboot();
-	bool receive();
-	String& getData();
+        client_data receive();
         bool send(int id, String data);
 private:
      bool setAsServer(WIFI_SET_AS_SERVER mode, int port);
