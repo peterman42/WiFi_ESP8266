@@ -185,10 +185,10 @@ client_data WiFi_ESP8266::receive()
         return client_data;
 }
 
-bool WiFi_ESP8266::send(int id, String data)
+bool WiFi_ESP8266::send(String id, String data)
 {
     String send_command = AT_COMMAND_SEND;
-    send_command.replace("<id>", String(id));
+    send_command.replace("<id>", id);
     send_command.replace("<data_length>", String(sizeof (data)));
     send_command += "\n>";
     send_command += data;

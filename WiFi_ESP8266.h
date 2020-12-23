@@ -130,7 +130,7 @@ public:
 	bool closeServer();
 	bool reboot();
         client_data receive();
-        bool send(int id, String data);
+        bool send(String id, String data);
 private:
      bool setAsServer(WIFI_SET_AS_SERVER mode, int port);
 };
