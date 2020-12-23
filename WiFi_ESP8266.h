@@ -70,6 +70,20 @@ enum WIFI_AP_CHANNELS_ENUM
 	CHANNEL13
 };
 
+struct client_data {
+    bool received;
+    String id;
+    String payload;
+    int length;
+
+    client_data()
+        : received(false)
+        , id(-1)
+        , payload("")
+        , length(0)
+    {}
+};
+
 class WiFi_ESP8266
 {
 
