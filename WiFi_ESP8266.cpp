@@ -197,6 +197,17 @@ bool WiFi_ESP8266::send(const String& id, const String& data)
     return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
 }
 
+bool WiFi_ESP8266::send(const String& data)
+{
+    String send_command = AT_COMMAND_SEND_SINGLE_CONNECTION;
+    send_command.replace("<data_length>", String(sizeof (data)));
+    send_command += "\n>";
+    send_command += data;
+    String resp = sendMessage(send_command, TIMEOUT, debug);
+
+    return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
+}
+
 bool WiFi_ESP8266::setAsServer(WIFI_SET_AS_SERVER mode, int port)
 {
     bool status = false;
