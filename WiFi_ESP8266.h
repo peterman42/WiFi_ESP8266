@@ -22,7 +22,7 @@
 #define AT_COMMAND_ENABLE_CONNECTIONS String("AT+CIPMUX=<mode>\r\n")
 #define AT_COMMAND_RESET String("AT+RST\r\n")
 #define AT_COMMAND_RECEIVE String("+IPD\r\n")
-#define AT_COMMAND_SEND String("AT+CIPSEND=<id>,<data_length>")
+#define AT_COMMAND_SEND_MUX_CONNECTIONS String("AT+CIPSEND=<id>,<data_length>")
 #define AT_COMMAND_SETUP_CLIENT String("AT+CIPSTART=<type>,<addr>, <port>")
 #define TIMEOUT 2000
 #define RESPONSE_ERROR String("ERROR")

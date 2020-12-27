@@ -187,7 +187,7 @@ client_data WiFi_ESP8266::receive()
 
 bool WiFi_ESP8266::send(const String& id, const String& data)
 {
-    String send_command = AT_COMMAND_SEND;
+    String send_command = AT_COMMAND_SEND_MUX_CONNECTIONS;
     send_command.replace("<id>", id);
     send_command.replace("<data_length>", String(sizeof (data)));
     send_command += "\n>";
