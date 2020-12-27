@@ -212,3 +212,15 @@ bool WiFi_ESP8266::setAsServer(WIFI_SET_AS_SERVER mode, int port)
 
     return status;
 }
+
+bool WiFi_ESP8266::setupClient(WIFI_SETUP_CLIENT_TYPE type, const String& address, int port )
+{
+    String setup_client_command = AT_COMMAND_SETUP_CLIENT;
+    setup_client_command.replace("<type>", (type == WIFI_SETUP_CLIENT_TYPE::TCP) ? "TCP" : "UDP");
+    setup_client_command.replace("<address>", address);
+    setup_client_command.replace("<port>", String(port));
+
+    String resp = sendMessage(setup_client_command, TIMEOUT, debug);
+
+    return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
+}

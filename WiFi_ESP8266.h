@@ -23,6 +23,7 @@
 #define AT_COMMAND_RESET String("AT+RST\r\n")
 #define AT_COMMAND_RECEIVE String("+IPD\r\n")
 #define AT_COMMAND_SEND String("AT+CIPSEND=<id>,<data_length>")
+#define AT_COMMAND_SETUP_CLIENT String("AT+CIPSTART=<type>,<addr>, <port>")
 #define TIMEOUT 2000
 #define RESPONSE_ERROR String("ERROR")
 
@@ -68,6 +69,11 @@ enum WIFI_AP_CHANNELS_ENUM
 	CHANNEL11,
 	CHANNEL12,
 	CHANNEL13
+};
+
+enum WIFI_SETUP_CLIENT_TYPE{
+    TCP=0,
+    UDP
 };
 
 struct client_data {
@@ -131,6 +137,7 @@ public:
 	bool reboot();
         client_data receive();
         bool send(const String& id, const String& data);
+        bool setupClient(WIFI_SETUP_CLIENT_TYPE type, const String& address, int port );
 private:
      bool setAsServer(WIFI_SET_AS_SERVER mode, int port);
 };
