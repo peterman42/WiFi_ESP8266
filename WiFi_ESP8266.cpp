@@ -190,9 +190,12 @@ bool WiFi_ESP8266::send(const String& id, const String& data)
     String send_command = AT_COMMAND_SEND_MUX_CONNECTIONS;
     send_command.replace("<id>", id);
     send_command.replace("<data_length>", String(sizeof (data)));
-    send_command += "\n>";
-    send_command += data;
     String resp = sendMessage(send_command, TIMEOUT, debug);
+    Serial.print("Resp :: " + resp);
+    if(resp.endsWith(">"))
+    {
+        resp = sendMessage(data, TIMEOUT, debug);
+    }
 
     return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
 }
@@ -201,10 +204,11 @@ bool WiFi_ESP8266::send(const String& data)
 {
     String send_command = AT_COMMAND_SEND_SINGLE_CONNECTION;
     send_command.replace("<data_length>", String(sizeof (data)));
-    send_command += "\n>";
-    send_command += data;
     String resp = sendMessage(send_command, TIMEOUT, debug);
-
+    if(resp.endsWith(">"))
+    {
+        resp = sendMessage(data, TIMEOUT, debug);
+    }
     return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
 }
 
@@ -232,6 +236,16 @@ bool WiFi_ESP8266::setupClient(WIFI_SETUP_CLIENT_TYPE type, const String& addres
     setup_client_command.replace("<port>", String(port));
 
     String resp = sendMessage(setup_client_command, TIMEOUT, debug);
+
+    return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
+}
+
+bool WiFi_ESP8266::closeConnection(const String& id)
+{
+    String close_connection_command = AT_COMMAND_CLOSE_CONNECTION_BY_ID;
+    close_connection_command.replace("<id>", id);
+
+    String resp = sendMessage(close_connection_command, TIMEOUT, debug);
 
     return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
 }
