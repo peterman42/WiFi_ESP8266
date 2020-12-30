@@ -105,7 +105,7 @@ String WiFi_ESP8266::sendMessage(const String& message,
         // If we are on debug mode, then print the response.
 	if(debug)
 	{
-		Serial.print("DEBUG: " + String(response));
+                Serial.println("DEBUG: " + String(response));
 	}
 
         return response;
@@ -191,7 +191,6 @@ bool WiFi_ESP8266::send(const String& id, const String& data)
     send_command.replace("<id>", id);
     send_command.replace("<data_length>", String(sizeof (data)));
     String resp = sendMessage(send_command, TIMEOUT, debug);
-    Serial.print("Resp :: " + resp);
     if(resp.endsWith(">"))
     {
         resp = sendMessage(data, TIMEOUT, debug);
@@ -232,7 +231,7 @@ bool WiFi_ESP8266::setupClient(WIFI_SETUP_CLIENT_TYPE type, const String& addres
 {
     String setup_client_command = AT_COMMAND_SETUP_CLIENT;
     setup_client_command.replace("<type>", (type == WIFI_SETUP_CLIENT_TYPE::TCP) ? "TCP" : "UDP");
-    setup_client_command.replace("<address>", address);
+    setup_client_command.replace("<addr>", address);
     setup_client_command.replace("<port>", String(port));
 
     String resp = sendMessage(setup_client_command, TIMEOUT, debug);
