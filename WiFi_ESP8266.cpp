@@ -134,7 +134,9 @@ bool WiFi_ESP8266::openServer( int port)
 
 bool WiFi_ESP8266::closeServer()
 {
-	return setAsServer(WIFI_SET_AS_SERVER::CLOSE_SERVER, -1);
+    bool isClosed = setAsServer(WIFI_SET_AS_SERVER::CLOSE_SERVER, -1);
+    delay(2000);
+    return isClosed ? enableConnections(WIFI_ENABLE_CONNECTIONS_MODE::SINGLE_CONNECTION) : false;
 }
 
 bool WiFi_ESP8266::reboot()
