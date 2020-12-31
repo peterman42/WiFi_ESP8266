@@ -195,7 +195,7 @@ bool WiFi_ESP8266::send(const String& id, const String& data)
     String resp = sendMessage(send_command, TIMEOUT, debug);
     if(resp.endsWith(">"))
     {
-        resp = sendMessage(data, TIMEOUT, debug);
+        resp = sendMessage(data+"\r\n", TIMEOUT, debug);
     }
 
     return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
@@ -208,7 +208,7 @@ bool WiFi_ESP8266::send(const String& data)
     String resp = sendMessage(send_command, TIMEOUT, debug);
     if(resp.endsWith(">"))
     {
-        resp = sendMessage(data, TIMEOUT, debug);
+        resp = sendMessage(data+"\r\n", TIMEOUT, debug);
     }
     return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
 }
