@@ -189,7 +189,7 @@ bool WiFi_ESP8266::send(const String& id, const String& data)
 {
     String send_command = AT_COMMAND_SEND_MUX_CONNECTIONS;
     send_command.replace("<id>", id);
-    send_command.replace("<data_length>", String(sizeof (data)));
+    send_command.replace("<data_length>", String(data.length()));
     String resp = sendMessage(send_command, TIMEOUT, debug);
     if(resp.endsWith(">"))
     {
@@ -202,7 +202,7 @@ bool WiFi_ESP8266::send(const String& id, const String& data)
 bool WiFi_ESP8266::send(const String& data)
 {
     String send_command = AT_COMMAND_SEND_SINGLE_CONNECTION;
-    send_command.replace("<data_length>", String(sizeof (data)));
+    send_command.replace("<data_length>", String(data.length()));
     String resp = sendMessage(send_command, TIMEOUT, debug);
     if(resp.endsWith(">"))
     {
