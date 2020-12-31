@@ -26,6 +26,7 @@
 #define AT_COMMAND_SEND_SINGLE_CONNECTION String("AT+CIPSEND=<data_length>\r\n")
 #define AT_COMMAND_SETUP_CLIENT String("AT+CIPSTART=\"<type>\",\"<addr>\",<port>\r\n")
 #define AT_COMMAND_CLOSE_CONNECTION_BY_ID String("AT+CIPCLOSE=<id>\r\n")
+#define AT_COMMAND_CLOSE_CONNECTION String("AT+CIPCLOSE\r\n")
 #define TIMEOUT 2000
 #define RESPONSE_ERROR String("ERROR")
 
@@ -142,6 +143,7 @@ public:
         bool send(const String& data);
         bool setupClient(WIFI_SETUP_CLIENT_TYPE type, const String& address, int port );
         bool closeConnection(const String& id);
+        bool closeConnection();
 private:
      bool setAsServer(WIFI_SET_AS_SERVER mode, int port);
 };

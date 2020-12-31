@@ -248,3 +248,9 @@ bool WiFi_ESP8266::closeConnection(const String& id)
 
     return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
 }
+
+bool WiFi_ESP8266::closeConnection()
+{
+    String resp = sendMessage(AT_COMMAND_CLOSE_CONNECTION, TIMEOUT, debug);
+    return (resp!="" && resp != NULL && resp!=RESPONSE_ERROR);
+}
